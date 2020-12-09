@@ -8,7 +8,7 @@ router.get('/', (req, res, next) => {
 });
 
 /* Crear Usuario Nuevo */
-router.get('/new-user', (req, res)=>{
+router.post('/new-user', (req, res)=>{
   User.create(req.body)
   .then((result)=>{
     res.send(result)

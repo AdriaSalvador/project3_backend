@@ -8,6 +8,8 @@ const hbs          = require('hbs');
 const mongoose     = require('mongoose');
 const logger       = require('morgan');
 const path         = require('path');
+const cors         = require("cors");
+
 
 
 mongoose
@@ -33,6 +35,25 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+//CORS Middleware /*'https://adriaproject3.herokuapp.com'*/
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+  res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+  next();
+});
+
+app.use(cors({
+  credentials: true,
+  origin: ["http://localhost:3001"]
+}));
+
+app.use((req, res, next)=>{
+  res.locals.user = req.user;
+  next();
+})
+
 // Express View engine setup
 
 app.use(require('node-sass-middleware')({
@@ -50,7 +71,7 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
 // default value for title local
-app.locals.title = 'Express - Generated with IronGenerator';
+// app.locals.title = 'Express - Generated with IronGenerator';
 
 
 
