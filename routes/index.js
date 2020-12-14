@@ -7,15 +7,5 @@ router.get('/', (req, res, next) => {
   res.send('Home');
 });
 
-/* Crear Usuario Nuevo */
-router.post('/new-user', (req, res)=>{
-  User.create(req.body)
-  .then((result)=>{
-    res.send(result)
-  })
-  .catch((err)=>{
-    res.send(err)
-  })
-})
 
 module.exports = router;
