@@ -13,6 +13,7 @@ const session       = require('express-session');
 const passport      = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
+const cookieSession = require('cookie-session')
  
 const User = require('./models/User')
 
@@ -69,7 +70,21 @@ app.use(require('node-sass-middleware')({
 
 // Passport session:
 // Middleware de Session
-app.use(session({secret: 'ourPassword', resave: true, saveUninitialized: true}))
+app.use(cookieSession({
+  name:'session',
+  keys: ['key1', 'key2'],
+  sameSite: 'none',
+  secure: true
+}))
+app.use(session({
+  secret: 'ourPassword', 
+  resave: true, 
+  saveUninitialized: true,
+  cookie: {
+    sameSite: 'none',
+    secure: true
+  }
+}))
 
 //Middleware para serializar al usuario
 passport.serializeUser((user, callback)=>{
