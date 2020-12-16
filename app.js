@@ -70,12 +70,15 @@ app.use(require('node-sass-middleware')({
 
 // Passport session:
 // Middleware de Session
+
+app.set('trust proxy', 1)
 app.use(cookieSession({
   name:'session',
   keys: ['key1', 'key2'],
   sameSite: 'none',
   secure: true
 }))
+
 app.use(session({
   secret: 'ourPassword', 
   resave: true, 
