@@ -1,26 +1,26 @@
 require('dotenv').config();
 
-const bodyParser   = require('body-parser');
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const express      = require('express');
-const favicon      = require('serve-favicon');
-const hbs          = require('hbs');
-const mongoose     = require('mongoose');
-const logger       = require('morgan');
-const path         = require('path');
-const cors         = require("cors");
-const session       = require('express-session');
-const passport      = require('passport');
+const express = require('express');
+const favicon = require('serve-favicon');
+const hbs = require('hbs');
+const mongoose = require('mongoose');
+const logger = require('morgan');
+const path = require('path');
+const cors = require("cors");
+const session = require('express-session');
+const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcryptjs');
 const cookieSession = require('cookie-session')
- 
+
 const User = require('./models/User')
 
 
 mongoose
   .connect(process.env.MONGODB_URI, {
-    useNewUrlParser: true, 
+    useNewUrlParser: true,
     useUnifiedTopology: true
   })
   .then(x => {
@@ -55,7 +55,7 @@ app.use(cors({
   origin: ["http://localhost:3001", 'https://adriaproject3.netlify.app']
 }));
 
-app.use((req, res, next)=>{
+app.use((req, res, next) => {
   res.locals.user = req.user;
   next();
 })
@@ -63,7 +63,7 @@ app.use((req, res, next)=>{
 // Express View engine setup
 
 app.use(require('node-sass-middleware')({
-  src:  path.join(__dirname, 'public'),
+  src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public'),
   sourceMap: true
 }));
@@ -73,15 +73,15 @@ app.use(require('node-sass-middleware')({
 
 app.set('trust proxy', 1)
 app.use(cookieSession({
-  name:'session',
+  name: 'session',
   keys: ['key1', 'key2'],
   sameSite: 'none',
   secure: true
 }))
 
 app.use(session({
-  secret: 'ourPassword', 
-  resave: true, 
+  secret: 'ourPassword',
+  resave: true,
   saveUninitialized: true,
   cookie: {
     sameSite: 'none',
@@ -90,12 +90,12 @@ app.use(session({
 }))
 
 //Middleware para serializar al usuario
-passport.serializeUser((user, callback)=>{
+passport.serializeUser((user, callback) => {
   callback(null, user._id)
 })
 
 //Middleware para des-serializar al usuario
-passport.deserializeUser((id, callback)=>{
+passport.deserializeUser((id, callback) => {
   User.findById(id)
     .then((user) => callback(null, user))
     .catch((err) => callback(err))
@@ -103,16 +103,16 @@ passport.deserializeUser((id, callback)=>{
 
 
 //Middleware del Strategy
-passport.use(new LocalStrategy({passReqToCallback: true}, (req, username, password, next)=>{
-  User.findOne({username})
-    .then((user)=>{
+passport.use(new LocalStrategy({ passReqToCallback: true }, (req, username, password, next) => {
+  User.findOne({ username })
+    .then((user) => {
 
-      if(!user){
-        return next(null, false, {message: "Incorrect username"})
+      if (!user) {
+        return next(null, false, { message: "Incorrect username" })
       }
 
-      if(!bcrypt.compareSync(password, user.password)){
-        return next(null, false, {message: "Incorrect password"})
+      if (!bcrypt.compareSync(password, user.password)) {
+        return next(null, false, { message: "Incorrect password" })
       }
 
       return next(null, user)
@@ -123,7 +123,7 @@ passport.use(new LocalStrategy({passReqToCallback: true}, (req, username, passwo
 //Middleware de passport
 app.use(passport.initialize())
 app.use(passport.session())
-      
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
