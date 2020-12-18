@@ -33,7 +33,7 @@ router.post('/deleteFavGame/:id', (req, res, next) => {
   // The $pull operator removes from an existing array all instances of a value or values that match a specified condition.
   User.findByIdAndUpdate(req.body.userID, { $pull: { favoritos: req.params.id } })
     .then((result) => {
-      console.log(result)
+      res.send(result)
     })
     .catch((err) => {
       console.log(err)
