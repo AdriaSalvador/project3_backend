@@ -43,7 +43,7 @@ app.use(cookieParser());
 
 //CORS Middleware /*'https://adriaproject3.herokuapp.com''https://adriaproject3.netlify.app/'*/
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', 'https://adriaproject3.herokuapp.com');
   res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
   res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 
 app.use(cors({
   credentials: true,
-  origin: ["http://localhost:3001", 'https://play4free.netlify.app']
+  origin: ["http://localhost:3001", 'https://play4free.netlify.app', 'https://adriaproject3.herokuapp.com']
 }));
 
 app.use((req, res, next) => {
