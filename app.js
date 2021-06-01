@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 
 app.use(cors({
   credentials: true,
-  origin: ["http://localhost:3001", 'https://adriaproject3.netlify.app']
+  origin: ["http://localhost:3001", 'https://play4free.netlify.app']
 }));
 
 app.use((req, res, next) => {
