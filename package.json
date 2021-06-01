@@ -6,7 +6,8 @@
     "start": "node ./bin/www",
     "dev": "DEBUG=project3-backend:* nodemon ./bin/www",
     "dev-windows": "nodemon ./bin/www",
-    "build": "npm run build-css && react-scripts build"
+    "build": "npm run build-css && react-scripts build",
+    "build-css": "what are you trying to do here?"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
